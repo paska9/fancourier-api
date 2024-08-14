@@ -4,7 +4,7 @@ namespace Fancourier\Request;
 
 use Fancourier\Response\CreateAwbRetur as CreateAwbReturResponse;
 
-use Fancourier\Objects\AwbIntern;
+use Fancourier\Objects\AwbInternRetur;
 
 /**
  * Class CreateAwb
@@ -42,7 +42,7 @@ class CreateAwbRetur extends AbstractRequest implements RequestInterface
         
     }
     
-    public function addAwb(AwbIntern $awb)
+    public function addAwb(AwbInternRetur $awb)
     {
         $this->awbList[] = $awb;
         return $this;
