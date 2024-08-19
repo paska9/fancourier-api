@@ -1,10 +1,10 @@
 {
-    "name": "shusaura85/fancourier-api",
+    "name": "paska9/fancourier-api",
     "description": "Library for FanCourier API v2.0",
 	"type": "library",
     "authors": [
         {
-            "name": "Shu Saura",
+            "name": "Pavel Cepraga",
             "role": "Developer"
         }
     ],
