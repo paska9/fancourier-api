@@ -74,6 +74,15 @@ class Fancourier
     }
 
     /**
+     * @param CreateAwbRetur $request
+     * @return \Fancourier\Response\CreateAwbRetur
+     */
+    public function createAwbRetur(createAwbRetur $request)
+    {
+        return $this->send($request);
+    }
+
+    /**
      * @param CreateAwbExternal $request
      * @return \Fancourier\Response\CreateAwbExternal
      */
