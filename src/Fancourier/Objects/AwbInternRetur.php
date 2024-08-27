@@ -21,9 +21,9 @@ class AwbInternRetur
 	protected $CoD = '';	// cash on delivery, optional			// info.cod
 	protected $currency = 'RON';								// info.currency (apare doar in borderou in documentatie, nu stiu daca afecteaza crearea de awb)
     protected $declaredValue = 0;								// info.declaredValue
-    protected $paymentType = CreateAwb::TYPE_RECIPIENT;			// info.payment
+    protected $paymentType = CreateAwbRetur::TYPE_RECIPIENT;			// info.payment
     protected $refund = '';	// refund payment			// info.refund
-    protected $returnPayment = CreateAwb::TYPE_SENDER; //refund	// info.returnPayment
+    protected $returnPayment = CreateAwbRetur::TYPE_SENDER; //refund	// info.returnPayment
     protected $notes = '';		// observation					// info.observation
     protected $contents = '';									// info.content
 	
