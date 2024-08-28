@@ -77,7 +77,7 @@ class Fancourier
      * @param CreateAwbRetur $request
      * @return \Fancourier\Response\CreateAwbRetur
      */
-    public function createAwbRetur(createAwbRetur $request)
+    public function createAwbRetur(CreateAwbRetur $request)
     {
         return $this->send($request);
     }
