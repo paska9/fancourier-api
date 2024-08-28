@@ -4,7 +4,7 @@ namespace Fancourier;
 
 use Fancourier\Request\RequestInterface;
 use Fancourier\Request\CreateAwb;
-use Fancourier\Request\createAwbRetur;
+use Fancourier\Request\CreateAwbRetur;
 use Fancourier\Request\CreateAwbExternal;
 use Fancourier\Request\DeleteAwb;
 use Fancourier\Request\GetServices;
