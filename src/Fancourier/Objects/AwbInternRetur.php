@@ -173,7 +173,7 @@ class AwbInternRetur
 
     /**
      * @param string $service
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setService($service)
     {
@@ -191,7 +191,7 @@ class AwbInternRetur
 
     /**
      * @param string $bank
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setBank($bank)
     {
@@ -209,7 +209,7 @@ class AwbInternRetur
 
     /**
      * @param string $iban
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setIban($iban)
     {
@@ -227,7 +227,7 @@ class AwbInternRetur
 
     /**
      * @param int $envelopes
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setEnvelopes($envelopes)
     {
@@ -245,7 +245,7 @@ class AwbInternRetur
 
     /**
      * @param int $parcels
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setParcels($parcels)
     {
@@ -263,7 +263,7 @@ class AwbInternRetur
 
     /**
      * @param float $weight (in kg)
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setWeight($weight)
     {
@@ -281,7 +281,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $cashondelivery
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setReimbursement($cashondelivery)
     {
@@ -299,7 +299,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $currency
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setCurrency($currency)
     {
@@ -317,7 +317,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $declaredValue
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setDeclaredValue($declaredValue)
     {
@@ -335,7 +335,7 @@ class AwbInternRetur
 
     /**
      * @param string $paymentType
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setPaymentType($paymentType)
     {
@@ -353,7 +353,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $refund
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setRefund($refund)
     {
@@ -371,7 +371,7 @@ class AwbInternRetur
 
     /**
      * @param string $reimbursementPaymentType
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setReturnPayment($reimbursementPaymentType)
     {
@@ -389,7 +389,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $notes
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setNotes($notes)
     {
@@ -407,7 +407,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $contents
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setContents($contents)
     {
@@ -429,7 +429,7 @@ class AwbInternRetur
 
     /**
      * @param float $length
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSizes($length_cm, $height_cm, $width_cm)
     {
@@ -455,7 +455,7 @@ class AwbInternRetur
 
     /**
      * @param int $height
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setHeight($height)
     {
@@ -473,7 +473,7 @@ class AwbInternRetur
 
     /**
      * @param int $length
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setLength($length)
     {
@@ -491,7 +491,7 @@ class AwbInternRetur
 
     /**
      * @param int $width
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setWidth($width)
     {
@@ -510,7 +510,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $costCenter
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setCostCenter($costCenter)
     {
@@ -558,7 +558,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $recipient
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setRecipientName($recipient)
     {
@@ -594,7 +594,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $contactPerson
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setContactPerson($contactPerson)
     {
@@ -612,7 +612,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $contactPerson
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderContactPerson($contactPerson)
     {
@@ -630,7 +630,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $phone
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setPhone($phone)
     {
@@ -648,7 +648,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $phone
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderPhone($phone)
     {
@@ -667,7 +667,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $phone
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setAltPhone($phone)
     {
@@ -685,7 +685,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $phone
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderAltPhone($phone)
     {
@@ -704,7 +704,7 @@ class AwbInternRetur
 
     /**
      * @param string $email
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setEmail($email)
     {
@@ -722,7 +722,7 @@ class AwbInternRetur
 
     /**
      * @param string $email
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderEmail($email)
     {
@@ -740,7 +740,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $county
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setCounty($county)
     {
@@ -758,7 +758,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $county
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderCounty($county)
     {
@@ -776,7 +776,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $city
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setCity($city)
     {
@@ -794,7 +794,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $city
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderCity($city)
     {
@@ -812,7 +812,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $street
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setStreet($street)
     {
@@ -830,7 +830,7 @@ class AwbInternRetur
 
     /**
      * @param mixed $street
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderStreet($street)
     {
@@ -848,7 +848,7 @@ class AwbInternRetur
 
     /**
      * @param string $number
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setNumber($number)
     {
@@ -866,7 +866,7 @@ class AwbInternRetur
 
     /**
      * @param string $number
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderNumber($number)
     {
@@ -884,7 +884,7 @@ class AwbInternRetur
 
     /**
      * @param string $number
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setPickupLocation($number)
     {
@@ -902,7 +902,7 @@ class AwbInternRetur
 
     /**
      * @param string $postalCode
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setPostalCode($postalCode)
     {
@@ -920,7 +920,7 @@ class AwbInternRetur
 
     /**
      * @param string $postalCode
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderPostalCode($postalCode)
     {
@@ -938,7 +938,7 @@ class AwbInternRetur
 
     /**
      * @param string $building
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setBuilding($building)
     {
@@ -956,7 +956,7 @@ class AwbInternRetur
 
     /**
      * @param string $building
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderBuilding($building)
     {
@@ -974,7 +974,7 @@ class AwbInternRetur
 
     /**
      * @param string $entrance
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setEntrance($entrance)
     {
@@ -992,7 +992,7 @@ class AwbInternRetur
 
     /**
      * @param string $entrance
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderEntrance($entrance)
     {
@@ -1010,7 +1010,7 @@ class AwbInternRetur
 
     /**
      * @param string $floor
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setFloor($floor)
     {
@@ -1028,7 +1028,7 @@ class AwbInternRetur
 
     /**
      * @param string $floor
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderFloor($floor)
     {
@@ -1046,7 +1046,7 @@ class AwbInternRetur
 
     /**
      * @param string $apartment
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setApartment($apartment)
     {
@@ -1064,7 +1064,7 @@ class AwbInternRetur
 
     /**
      * @param string $apartment
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setSenderApartment($apartment)
     {
@@ -1082,7 +1082,7 @@ class AwbInternRetur
 
     /**
      * @param string $number
-     * @return AwbIntern
+     * @return AwbInternRetur
      */
     public function setDropOffLocation($number)
     {
