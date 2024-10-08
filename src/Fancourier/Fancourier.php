@@ -27,6 +27,7 @@ use Fancourier\Request\GetShippingSlip;
 use Fancourier\Request\GetAwbEvents;
 use Fancourier\Request\TrackAwb;
 use Fancourier\Request\GetBankTransfers;
+use Fancourier\Request\GetAwbConfirmations;
 
 use Fancourier\Request\GetCourierOrders;
 use Fancourier\Request\GetCourierOrderEvents;
@@ -297,6 +298,15 @@ class Fancourier
      * @return \Fancourier\Response\GetBranches
      */
     public function getBranches(GetBranches $request)
+    {
+        return $this->send($request);
+    }
+
+    /**
+     * @param GetAwbConfirmations $request
+     * @return \Fancourier\Response\GetAwbConfirmations
+     */
+    public function getAwbConfirmations(GetAwbConfirmations $request)
     {
         return $this->send($request);
     }
