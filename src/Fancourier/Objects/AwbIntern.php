@@ -46,6 +46,7 @@ class AwbIntern
     protected $number = '';									// info.recipient.address.streetNo
 	
 	protected $pickupLocation = '';	// ONLY FOR PUDO		// info.recipient.address.pickupLocation
+    protected $pickupLocationId = ''; // ONLY FOR PUDO		// info.recipient.address.pickupLocationId
     protected $dropOffLocation = ''; // ONLY FOR PUDO		// info.sender.address.dropOffLocation
 
     protected $postalCode = '';								// info.recipient.address.zipcode
@@ -104,9 +105,10 @@ class AwbIntern
 								"locality" => $this->city, // {{url}}/localities 
 								"street" => $this->street, // {{url}}/streets 
 								"streetNo" => strval($this->number), 	// API demands this to be a string
-								"pickupLocation" => $this->pickupLocation,//doar pentru FANbox - {{url}}/pickup-points 
+								"pickupLocation" => $this->pickupLocation, //doar pentru FANbox - {{url}}/pickup-points 
+                                "pickupLocationId" => $this->pickupLocationId, //doar pentru FANbox - {{url}}/pickup-points 
 								"zipCode" => $this->postalCode,
-								
+                                
 								"building" => $this->building, 
 								"entrance" => $this->entrance, 
 								"floor" => $this->floor, 
@@ -689,6 +691,24 @@ class AwbIntern
     public function setPickupLocation($number)
     {
         $this->pickupLocation = $number;
+        return $this;
+    }
+
+       /**
+     * @return string
+     */
+    public function getPickupLocationId()
+    {
+        return $this->pickupLocationId;
+    }
+
+    /**
+     * @param string $number
+     * @return AwbIntern
+     */
+    public function setPickupLocationId($locationId)
+    {
+        $this->pickupLocationId = $locationId;
         return $this;
     }
 
