@@ -131,6 +131,10 @@ All set* functions here have an equivalent get* function
 ->setSenderEntrance($entrance)
 ->setSenderFloor($floor)
 ->setSenderApartment($apartment)
+->setIsValueUnderThreshold($isValueUnderThreshold)		// NON-UE parcel tax - if the parcel value is under the threshold value (true / false) - if this is not set, the fieds for NON-UE parcel tax are not sent
+->setCountryCode($countryCode)							// NON-UE parcel tax - seller's country code (ex: RO, PL, CN, BG, MD, etc)
+->setVatId($vatId)										// NON-UE parcel tax - seller's VAT identification code or internation fiscal id
+->setCompany($company)									// NON-UE parcel tax - seller's legal company name
 
 **********************************************************
 The following functions can be used after processing the response

@@ -72,6 +72,12 @@ class AwbIntern
     protected $senderFloor = '';									// info.sender.address.floor
     protected $senderApartment = '';								// info.sender.address.apartment
 	
+	// non-UE parcels
+	protected $NUE_isValueUnderThreshold = null;				// info.isValueUnderThreshold
+	protected $NUE_countryCode = '';							// info.countryCode
+	protected $NUE_vatId = '';									// info.vatId
+	protected $NUE_company;										// info.company
+	
 	public function __construct()
 		{
 		}
@@ -164,6 +170,15 @@ class AwbIntern
                         ];
 			}
 		
+		// non-UE parcel - only add if set
+		if (is_bool($this->NUE_isValueUnderThreshold))
+			{
+			$arr['info']['isValueUnderThreshold'] = $this->NUE_isValueUnderThreshold;
+			$arr['info']['countryCode'] = $this->NUE_countryCode = '';
+			$arr['info']['vatId'] = $this->NUE_vatId = '';
+			$arr['info']['company'] = $this->NUE_company;
+			}
+
 		return $arr;
 		}
 
@@ -890,7 +905,7 @@ class AwbIntern
 
     /**
      * @param mixed $Sender
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderName($sender)
     {
@@ -908,7 +923,7 @@ class AwbIntern
 
     /**
      * @param mixed $contactPerson
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderContactPerson($contactPerson)
     {
@@ -926,7 +941,7 @@ class AwbIntern
 
     /**
      * @param mixed $phone
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderPhone($phone)
     {
@@ -945,7 +960,7 @@ class AwbIntern
 
     /**
      * @param mixed $phone
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderAltPhone($phone)
     {
@@ -964,7 +979,7 @@ class AwbIntern
 
     /**
      * @param string $email
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderEmail($email)
     {
@@ -982,7 +997,7 @@ class AwbIntern
 
     /**
      * @param mixed $county
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderCounty($county)
     {
@@ -1000,7 +1015,7 @@ class AwbIntern
 
     /**
      * @param mixed $city
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderCity($city)
     {
@@ -1018,7 +1033,7 @@ class AwbIntern
 
     /**
      * @param mixed $street
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderStreet($street)
     {
@@ -1036,7 +1051,7 @@ class AwbIntern
 
     /**
      * @param string $number
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderNumber($number)
     {
@@ -1054,7 +1069,7 @@ class AwbIntern
 
     /**
      * @param string $postalCode
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderPostalCode($postalCode)
     {
@@ -1072,7 +1087,7 @@ class AwbIntern
 
     /**
      * @param string $building
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderBuilding($building)
     {
@@ -1090,7 +1105,7 @@ class AwbIntern
 
     /**
      * @param string $entrance
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderEntrance($entrance)
     {
@@ -1108,7 +1123,7 @@ class AwbIntern
 
     /**
      * @param string $floor
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderFloor($floor)
     {
@@ -1126,11 +1141,88 @@ class AwbIntern
 
     /**
      * @param string $apartment
-     * @return AwbExtern
+     * @return AwbIntern
      */
     public function setSenderApartment($apartment)
     {
         $this->senderApartment = $apartment;
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getIsValueUnderThreshold()
+    {
+        if (is_bool($this->NUE_isValueUnderThreshold))
+        {
+            throw new \Exception('isValueUnderThreshold is not set!');
+        }
+        return $this->NUE_isValueUnderThreshold;
+    }
+
+    /**
+     * @param bool $isValueUnderThreshold
+     * @return AwbIntern
+     */
+    public function setIsValueUnderThreshold($isValueUnderThreshold)
+    {
+        $this->NUE_isValueUnderThreshold = $isValueUnderThreshold;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->NUE_countryCode;
+    }
+
+    /**
+     * @param string $countryCode - 2 letter country code
+     * @return AwbIntern
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->NUE_countryCode = $countryCode;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVatId()
+    {
+        return $this->NUE_vatId;
+    }
+
+    /**
+     * @param string $vatId
+     * @return AwbIntern
+     */
+    public function setVatId($vatId)
+    {
+        $this->NUE_vatId = $vatId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->NUE_company;
+    }
+
+    /**
+     * @param string $company
+     * @return AwbIntern
+     */
+    public function setCompany($company)
+    {
+        $this->NUE_company = $company;
         return $this;
     }
 
