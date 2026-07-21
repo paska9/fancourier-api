@@ -15,7 +15,7 @@ class AwbIntern
     protected $service = 'Standard';			// info.service
     protected $bank = '';	// optional						// info.bank
     protected $iban = '';	// optional						// info.bankAccount
-    protected $envelopes = 0;	// optionalif parcels set	// info.packages.envelopes
+    protected $envelopes = 0;	// optional if parcels set	// info.packages.envelope
     protected $parcels = 0;	// optional if envelopes set	// info.packages.parcel
     protected $weight = 0;									// info.weight
 	protected $CoD = '';	// cash on delivery, optional			// info.cod
@@ -33,6 +33,7 @@ class AwbIntern
 	
 	protected $costCenter = '';	// optional					// info.costCenter
     protected $options = [];	// optional					// info.options
+	protected $uitCode = '';	// optional					// info uitCode
 	
     protected $name = '';										// info.recipient.name
     protected $contactPerson = '';								// info.recipient.contactPerson
@@ -45,9 +46,8 @@ class AwbIntern
     protected $street = '';										// info.recipient.address.street
     protected $number = '';									// info.recipient.address.streetNo
 	
-	protected $pickupLocation = '';	// ONLY FOR PUDO		// info.recipient.address.pickupLocation
-    protected $pickupLocationId = ''; // ONLY FOR PUDO		// info.recipient.address.pickupLocationId
-    protected $dropOffLocation = ''; // ONLY FOR PUDO		// info.sender.address.dropOffLocation
+    protected $pickupLocationId = '';	// ONLY FOR PUDO		// info.recipient.address.pickupLocationId
+    protected $dropOffLocationId = ''; // ONLY FOR PUDO		// info.sender.address.dropOffLocationId
 
     protected $postalCode = '';								// info.recipient.address.zipcode
 	
@@ -55,6 +55,28 @@ class AwbIntern
     protected $entrance = '';								// info.recipient.address.entrance
     protected $floor = '';									// info.recipient.address.floor
     protected $apartment = '';								// info.recipient.address.apartment
+
+    protected $senderName = '';
+    protected $senderContactPerson = '';
+    protected $senderPhone = '';
+    protected $senderAltPhone = '';
+    protected $senderEmail = '';
+
+    protected $senderCounty = ''; // county							// info.sender.address.county
+    protected $senderCity = ''; // locality							// info.sender.address.locality
+    protected $senderStreet = '';										// info.sender.address.street
+    protected $senderNumber = '';									// info.sender.address.streetNo
+	protected $senderPostalCode = '';								// info.sender.address.zipcode
+    protected $senderBuilding = '';								// info.sender.address.building
+    protected $senderEntrance = '';								// info.sender.address.entrance
+    protected $senderFloor = '';									// info.sender.address.floor
+    protected $senderApartment = '';								// info.sender.address.apartment
+	
+	// non-UE parcels
+	protected $NUE_isValueUnderThreshold = null;				// info.isValueUnderThreshold
+	protected $NUE_countryCode = '';							// info.countryCode
+	protected $NUE_vatId = '';									// info.vatId
+	protected $NUE_company;										// info.company
 	
 	public function __construct()
 		{
@@ -83,8 +105,8 @@ class AwbIntern
 					"declaredValue" => $this->declaredValue, //optional 
 					"payment" => $this->paymentType, //obligatoriu 
 					"refund" => $this->refund, //optional 
-					"returnPayment" => $this->returnPayment, //obligatoriu 
-					"observation" => $this->notes, //obligatoriu 
+					"returnPayment" => $this->returnPayment, //optional 
+					"observation" => $this->notes, //optional 
 					"content" => $this->contents, //optional 
 					"dimensions" => [
 								"length" => $this->length,
@@ -92,7 +114,8 @@ class AwbIntern
 								"width" => $this->width
 								], 
 					"costCenter" => $this->costCenter, //optional 
-					"options" => $this->options 
+					"options" => $this->options,
+					"uitCode" => $this->uitCode 
 				], 
 			"recipient" => [ //obligatoriu
 						"name" => $this->name, 
@@ -105,10 +128,9 @@ class AwbIntern
 								"locality" => $this->city, // {{url}}/localities 
 								"street" => $this->street, // {{url}}/streets 
 								"streetNo" => strval($this->number), 	// API demands this to be a string
-								"pickupLocation" => $this->pickupLocation, //doar pentru FANbox - {{url}}/pickup-points 
-                                "pickupLocationId" => $this->pickupLocationId, //doar pentru FANbox - {{url}}/pickup-points 
+								"pickupLocationId" => $this->pickupLocationId,//doar pentru FANbox - {{url}}/pickup-points 
 								"zipCode" => $this->postalCode,
-                                
+								
 								"building" => $this->building, 
 								"entrance" => $this->entrance, 
 								"floor" => $this->floor, 
@@ -118,11 +140,45 @@ class AwbIntern
                         ],
             "sender" => [
                 "address" => [
-                    "dropOffLocation" => $this->dropOffLocation
+                    "dropOffLocationId" => $this->dropOffLocationId
                 ]
             ]
         ];
 		
+		if ( ($this->senderName != '') || ($this->senderContactPerson != '') )
+			{
+			$arr["sender"] = [
+						"name" => $this->senderName, 
+						"contactPerson" => $this->senderContactPerson,
+						"phone" => $this->senderPhone,
+						"secondaryPhone" => $this->senderAltPhone, // optional
+						"email" => $this->senderEmail, 
+						"address" => [ //obligatoriu
+								"county" => $this->senderCounty, // {{url}}/counties 
+								"locality" => $this->senderCity, // {{url}}/localities 
+								"street" => $this->senderStreet, // {{url}}/streets 
+								"streetNo" => strval($this->senderNumber), 	// API demands this to be a string
+								"dropOffLocationId" => $this->dropOffLocationId, //doar pentru FANbox - {{url}}/pickup-points 
+								"zipCode" => $this->senderPostalCode,
+								
+								"building" => $this->senderBuilding, 
+								"entrance" => $this->senderEntrance, 
+								"floor" => $this->senderFloor, 
+								"apartment" => $this->senderApartment,
+								//"country" => "Romania" // optional
+								] 
+                        ];
+			}
+		
+		// non-UE parcel - only add if set
+		if (is_bool($this->NUE_isValueUnderThreshold))
+			{
+			$arr['info']['isValueUnderThreshold'] = $this->NUE_isValueUnderThreshold;
+			$arr['info']['countryCode'] = $this->NUE_countryCode = '';
+			$arr['info']['vatId'] = $this->NUE_vatId = '';
+			$arr['info']['company'] = $this->NUE_company;
+			}
+
 		return $arr;
 		}
 
@@ -483,7 +539,7 @@ class AwbIntern
     }
 
     /**
-     * @return int
+     * @return array
      */
     public function getOptions()
     {
@@ -491,7 +547,19 @@ class AwbIntern
     }
 
     /**
-     * @param $opt
+	 * Replace all options with string containing options
+     * @param string $options
+     * @return GetCosts
+     */
+    public function setOptions($options)
+    {
+        $this->options = str_split($options);
+        return $this;
+    }
+
+    /**
+	 * Add a single option letter
+     * @param string $option
      * @return $this
      */
     public function addOption($option)
@@ -504,11 +572,30 @@ class AwbIntern
     }
 
     /**
+	 * Clear all set options
      * @return $this
      */
     public function resetOptions()
     {
         $this->options = [];
+        return $this;
+    }
+
+	/**
+     * @return string
+     */
+    public function getUitCode()
+    {
+        return $this->uitCode;
+    }
+
+    /**
+     * @param mixed $uitCode
+     * @return AwbIntern
+     */
+    public function setUitCode($uitCode)
+    {
+        $this->uitCode = $uitCode;
         return $this;
     }
 
@@ -681,34 +768,16 @@ class AwbIntern
      */
     public function getPickupLocation()
     {
-        return $this->pickupLocation;
-    }
-
-    /**
-     * @param string $number
-     * @return AwbIntern
-     */
-    public function setPickupLocation($number)
-    {
-        $this->pickupLocation = $number;
-        return $this;
-    }
-
-       /**
-     * @return string
-     */
-    public function getPickupLocationId()
-    {
         return $this->pickupLocationId;
     }
 
     /**
-     * @param string $number
+     * @param string $pudoId
      * @return AwbIntern
      */
-    public function setPickupLocationId($locationId)
+    public function setPickupLocation($pudoId)
     {
-        $this->pickupLocationId = $locationId;
+        $this->pickupLocationId = $pudoId;
         return $this;
     }
 
@@ -807,19 +876,355 @@ class AwbIntern
      */
     public function getDropOffLocation()
     {
-        return $this->dropOffLocation;
+        return $this->dropOffLocationId;
+    }
+
+    /**
+     * @param string $pudoId
+     * @return AwbIntern
+     */
+    public function setDropOffLocation($pudoId)
+    {
+        $this->dropOffLocationId = $pudoId;
+        return $this;
+    }
+
+
+	/******
+	SENDER
+	*******/
+
+
+	/**
+     * @return mixed
+     */
+    public function getSenderName()
+    {
+        return $this->senderName;
+    }
+
+    /**
+     * @param mixed $Sender
+     * @return AwbIntern
+     */
+    public function setSenderName($sender)
+    {
+        $this->senderName = $sender;
+        return $this;
+    }
+
+   /**
+     * @return mixed
+     */
+    public function getSenderContactPerson()
+    {
+        return $this->senderContactPerson;
+    }
+
+    /**
+     * @param mixed $contactPerson
+     * @return AwbIntern
+     */
+    public function setSenderContactPerson($contactPerson)
+    {
+        $this->senderContactPerson = $contactPerson;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSenderPhone()
+    {
+        return $this->senderPhone;
+    }
+
+    /**
+     * @param mixed $phone
+     * @return AwbIntern
+     */
+    public function setSenderPhone($phone)
+    {
+        $this->senderPhone = $phone;
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getSenderAltPhone()
+    {
+        return $this->senderAltPhone;
+    }
+
+    /**
+     * @param mixed $phone
+     * @return AwbIntern
+     */
+    public function setSenderAltPhone($phone)
+    {
+        $this->senderAltPhone = $phone;
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getSenderEmail()
+    {
+        return $this->senderEmail;
+    }
+
+    /**
+     * @param string $email
+     * @return AwbIntern
+     */
+    public function setSenderEmail($email)
+    {
+        $this->senderEmail = $email;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSenderCounty()
+    {
+        return $this->senderCounty;
+    }
+
+    /**
+     * @param mixed $county
+     * @return AwbIntern
+     */
+    public function setSenderCounty($county)
+    {
+        $this->senderCounty = $county;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSenderCity()
+    {
+        return $this->senderCity;
+    }
+
+    /**
+     * @param mixed $city
+     * @return AwbIntern
+     */
+    public function setSenderCity($city)
+    {
+        $this->senderCity = $city;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSenderStreet()
+    {
+        return $this->senderStreet;
+    }
+
+    /**
+     * @param mixed $street
+     * @return AwbIntern
+     */
+    public function setSenderStreet($street)
+    {
+        $this->senderStreet = $street;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSenderNumber()
+    {
+        return $this->senderNumber;
     }
 
     /**
      * @param string $number
      * @return AwbIntern
      */
-    public function setDropOffLocation($number)
+    public function setSenderNumber($number)
     {
-        $this->dropOffLocation = $number;
+        $this->senderNumber = $number;
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getSenderPostalCode()
+    {
+        return $this->senderPostalCode;
+    }
+
+    /**
+     * @param string $postalCode
+     * @return AwbIntern
+     */
+    public function setSenderPostalCode($postalCode)
+    {
+        $this->senderPostalCode = $postalCode;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSenderBuilding()
+    {
+        return $this->senderBuilding;
+    }
+
+    /**
+     * @param string $building
+     * @return AwbIntern
+     */
+    public function setSenderBuilding($building)
+    {
+        $this->senderBuilding = $building;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSenderEntrance()
+    {
+        return $this->senderEntrance;
+    }
+
+    /**
+     * @param string $entrance
+     * @return AwbIntern
+     */
+    public function setSenderEntrance($entrance)
+    {
+        $this->senderEntrance = $entrance;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSenderFloor()
+    {
+        return $this->senderFloor;
+    }
+
+    /**
+     * @param string $floor
+     * @return AwbIntern
+     */
+    public function setSenderFloor($floor)
+    {
+        $this->senderFloor = $floor;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSenderApartment()
+    {
+        return $this->senderApartment;
+    }
+
+    /**
+     * @param string $apartment
+     * @return AwbIntern
+     */
+    public function setSenderApartment($apartment)
+    {
+        $this->senderApartment = $apartment;
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getIsValueUnderThreshold()
+    {
+        if (is_bool($this->NUE_isValueUnderThreshold))
+        {
+            throw new \Exception('isValueUnderThreshold is not set!');
+        }
+        return $this->NUE_isValueUnderThreshold;
+    }
+
+    /**
+     * @param bool $isValueUnderThreshold
+     * @return AwbIntern
+     */
+    public function setIsValueUnderThreshold($isValueUnderThreshold)
+    {
+        $this->NUE_isValueUnderThreshold = $isValueUnderThreshold;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->NUE_countryCode;
+    }
+
+    /**
+     * @param string $countryCode - 2 letter country code
+     * @return AwbIntern
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->NUE_countryCode = $countryCode;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVatId()
+    {
+        return $this->NUE_vatId;
+    }
+
+    /**
+     * @param string $vatId
+     * @return AwbIntern
+     */
+    public function setVatId($vatId)
+    {
+        $this->NUE_vatId = $vatId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->NUE_company;
+    }
+
+    /**
+     * @param string $company
+     * @return AwbIntern
+     */
+    public function setCompany($company)
+    {
+        $this->NUE_company = $company;
+        return $this;
+    }
 
 // ********************************************
 // ************** FUNCTII PT REZULTATE ********
@@ -840,11 +1245,14 @@ class AwbIntern
 		$this->awb = $data['awbNumber'];
 		$this->details = [
 				"tariff"		=> $data['tariff'] ?? '',
+				"vat"			=> $data['vat'] ?? '',
 				"packages"		=> $data['packages'] ?? '',
 				"letter"		=> $data['letter'] ?? '',
 				"routingCode"	=> $data['routingCode'] ?? '',
 				"office"		=> $data['office'] ?? '',
-				"visualCode"	=>  $data['visualCode'] ?? '',
+				"pickUpPointId"	=> $data['pickUpPointId'] ?? '',
+				"visualCode"	=> $data['visualCode'] ?? '',
+				"estimatedDeliveryTime"	=>  $data['estimatedDeliveryTime'] ?? '',
 				];
 
 		}
