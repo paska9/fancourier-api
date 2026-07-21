@@ -210,9 +210,6 @@ class Client {
 
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 
-		//curl_setopt($this->curl, CURLOPT_HEADER, ['Content-Type: application/json'] );
-
-		//curl_setopt($this->curl, CURLOPT_POST, 1);
 		$jsondata = json_encode($data);
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $jsondata);
 		if ($this->is_put)
@@ -223,24 +220,23 @@ class Client {
 			{
 			curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 			}
-		
+
 		$this->headers_delete('Content-Type'); // remove the custom content-type to not interfere with other requests
 
 		$response = curl_exec($this->curl);
 
-		if(empty($response)||is_null($response))
-			{
-			$this->close();
-			}
+		// citim eroarea INAINTE de a inchide handle-ul (fix pentru "supplied resource is not a valid cURL handle resource")
+		$curl_error = curl_error($this->curl);
+		$curl_errno = curl_errno($this->curl);
 
-		if (!curl_error($this->curl) && $response)
+		if (!$curl_error && $response)
 			{
 			$this->close();
 			return $response;
 			}
 
-		$this->set_error(curl_error($this->curl));
-		$this->set_error_no(curl_errno($this->curl));
+		$this->set_error($curl_error);
+		$this->set_error_no($curl_errno);
 		$this->close();
 		return false;
 		}
